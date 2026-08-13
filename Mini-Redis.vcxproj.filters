@@ -27,4 +27,8 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include=".gitignore" />
+  </ItemGroup>
 </Project>
