@@ -1,0 +1,10 @@
+# Visual Studio 임시 캐시 및 로컬 설정
+.vs
+*.user
+
+# 빌드 결과물 (컴파일된 exe 등)
+ARM64/
+x64/
+Debug/
+Release/
+
