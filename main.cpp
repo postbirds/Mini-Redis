@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -19,15 +20,14 @@ void threadTask(KVDatabase& db, int thread_id) {
     // cout 독점 시작
     {
         std::lock_guard<std::mutex> lock(cout_mutex);
-        std::cout << "[Thread " << thread_id << "] GET " << key << ": " << result << "\n"; 
+        std::cout << "[Thread " << thread_id << "] GET " << key << ": " << result << "\n";
     }
     // 자동 unlock
-
-
-    std::cout << "[Thread " << thread_id << "] GET " << key << ": " << db.get(key) << "\n";
 }
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
+
     std::cout << "=== Mini-Redis 서버 시작 ===\n";
     KVDatabase db;
     std::vector<std::thread> threads;
