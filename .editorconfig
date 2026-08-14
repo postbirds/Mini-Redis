@@ -1,0 +1,10 @@
+# Windows에서 VS로 개발하고 리눅스(Docker)로 배포할 때 줄바꿈 문자 충돌 문제가 발생할 수 있다.
+# 윈도우:  \r\n이고 리눅스는 \n(LF) 이기 때문이다.
+# 현재 파일인 .editorconfig를 넣어두면 파일 저장할 때는 리눅스 표준인 LF로 저장해주어서 도커나 Github actions에서 에러가 나는 것을 방지할 수 있다.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = LF
+insert_final_newline = true
+trim_trailing_whitespace = true
