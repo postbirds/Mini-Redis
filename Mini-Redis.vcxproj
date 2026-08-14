@@ -201,12 +201,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="KVDatabase.cpp" />
-    <ClCompile Include="Mini-Redis.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KVDatabase.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".clang-format" />
+    <None Include=".clang-tidy" />
     <None Include=".gitignore" />
     <None Include="README.md" />
   </ItemGroup>
