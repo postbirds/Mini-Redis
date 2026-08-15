@@ -122,6 +122,17 @@ vcpkg add port boost-asio
 KVDatabase(GET/SET)로직과 네트워크(Boost.Asio)를 결합해 진짜 텍스트 명령어를 처리하는 Redis처럼 만들기 위해서는 어떻게 해야할까?
 
 스프링에서는 @Autowired로 빈을 주입받는데 C++에서는 공유 데이터를 여러 세션이 어떻게 공유한가? C++에서는 아주 직관적으로 참조자(&)를 사용한 의존성 주입 방식을 사용한다. main함수에서 KVDatabsae를 딱 하나 만들고, 그 참조(주소)를 Server를 거쳐 각 Session에게 전달해주면 된다.
+---
+C++ 비동기 네트워크 개발 시 '주의해야 할 함정'
+Session 클래스에서 std::string response_;를 선언해두었다.
+그냥 do_read 함수 안에서 string response를 만들어서 바로 보내면 안되나?라고 생각할 수도 있다.
+
+자바에서는 가능하지만, C++에서는 안된다.
+
+async_write는 이름 그대로 Async이다. 이문자열 좀 네트워크로 전송해줘라고 운영체제에 부탁만하고, 함수는 곧바로 종료된다.
+지역 변수로 
+
+
 
 
 ## Visual Studio
