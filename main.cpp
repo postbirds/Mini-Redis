@@ -45,17 +45,35 @@ void threadTaskMain() {
   std::cout << "=== 끝 == \n";
 }
 
-int main() {
+int runAsioMain() {
   try {
-    std::cout << "=== Mini-Redis Async Server Started (Port 6379) ===\n";
 
     // io_context: Asio의 심장. 운영체제의 네트워크 이벤트를 관리하는 루프
     boost::asio::io_context io_context;
 
     // 6379(Redis 기본 포트) 포트로 서버를 연다.
-    Server server(io_context, 6379);
+    //Server server(io_context, 6379, db);
 
     // 이벤트 루프 실행 (블로킹되며, 접속이나 메시지가 올 때마다 콜백을 실행한다)
+    io_context.run();
+
+  } catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << "\n";
+  }
+
+  return 0;
+}
+
+int main() {
+  try {
+    std::cout << "=== Mini-Redis Async Server Started (Port 6379) ===\n";
+
+    boost::asio::io_context io_context;
+
+    KVDatabase db;
+
+    Server server(io_context, 6379, db);
+
     io_context.run();
 
   } catch (std::exception& e) {

@@ -1,14 +1,14 @@
 #include "Session.h"
 #include <iostream>
 #include <string>
+#include "KVDatabase.h"
 
 using boost::asio::ip::tcp;
 
-Session::Session(tcp::socket socket) : socket_(std::move(socket)), data_{} {}
+Session::Session(tcp::socket socket, KVDatabase& db)
+    : socket_(std::move(socket)), db_(db), data_{} {}
 
 void Session::start() {
-  std::cout << "[New Client] IP: "
-            << socket_.remote_endpoint().address().to_string() << "\n";
   do_read();
 }
 
@@ -19,20 +19,48 @@ void Session::do_read() {
       boost::asio::buffer(data_, max_length),
       [this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
-          std::cout << "[RECV] " << std::string(data_, length);
-          do_write(length);
+          std::string request(data_, length);
+          response_ = process_command(request);
+          do_write();
         }
       });
 }
 
-void Session::do_write(std::size_t length) {
+void Session::do_write() {
   auto self(shared_from_this());
 
-  boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
+  boost::asio::async_write(socket_, boost::asio::buffer(response_),
                            [this, self](boost::system::error_code ec,
                                         std::size_t bytes_transferred) {
                              if (!ec) {
                                do_read();
                              }
                            });
+}
+
+std::string Session::process_command(const std::string& input) {
+  std::istringstream iss(input);
+  std::string command, key, value;
+
+  iss >> command;
+
+  if (command == "SET" || command == "set") {
+    iss >> key >> value;
+    if (key.empty() || value.empty())
+      return "-ERR syntax error\n";
+
+    db_.set(key, value);
+    return "+OK\n";
+  } else if (command == "GET" || command == "get") {
+    iss >> key;
+    if (key.empty())
+      return "-ERR syntax error\n";
+
+    std::string res = db_.get(key);
+    if (res == "(nil)")
+      return "(nil)\n";
+    return res + "\n";
+  }
+
+  return "-ERR unknown command\n";
 }
