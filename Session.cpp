@@ -70,6 +70,11 @@ std::string Session::process_command(std::string input) {
     if (res == "(nil)")
       return "(nil)\r\n";
     return res + "\r\n";
+  } else if (command == "SAVE" || command == "save") {
+    if (db_.save_snapshot()) {
+      return "+OK Snapshot saved to disk\r\n";
+    }
+    return "-ERR Failed to save snapshot\r\n";
   }
 
   return "-ERR unknown command\r\n";
