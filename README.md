@@ -74,3 +74,46 @@ C++ 네트워크 프로그래밍의 실질적 표준인 Boost.Asio 라이브러�
 하지만, C++은 역사적으로 중앙 집중식 시스템이 없어서 개발자가 직접 소스코드를 다운받고, 컴파일하고, 링커 경로에 수동 지정해준다.
 다행히도 최근 MS가 만든 vcpkg 라는 패키지 매니저가 등장해서 자바의 Maven 처럼 아주 편하게 외부 라이브러리를 사용할 수 있게 되었다.
 vcpkg를 설치하고 Boost.Asio를 설치하자. 
+
+https://learn.microsoft.com/ko-kr/vcpkg/get_started/get-started?pivots=shell-powershell
+
+```
+# 1. C드라이브 최상단(또는 원하는 개발 폴더)으로 이동
+cd C:\
+
+# 2. vcpkg 저장소 클론 (깃허브에서 가져오기)
+git clone https://github.com/microsoft/vcpkg.git
+
+# 3. vcpkg 폴더로 이동
+cd vcpkg
+
+# 4. vcpkg 실행 파일 생성 (부트스트랩)
+.\bootstrap-vcpkg.bat
+```
+```
+# vcpkg 폴더 안에서 실행
+.\vcpkg integrate install
+
+```
+```
+$env:VCPKG_ROOT = "C:\path\to\vcpkg"
+$env:PATH = "$env:VCPKG_ROOT;$env:PATH"
+```
+```
+vcpkg new --application
+```
+위를 수행하면 vcpk.json과 vcpk-configuration.json이 나온다.
+vcpkg.json는 설치한 라이브러리 이름과 버전 정보가 기록된다.
+vcpk-configuration.json은 라이브러리를 어디서 다운로드할지 패키지 매니저의 상세 설정이 적혀있다.
+과거 C++을 사용할 때는 개발자가 직접 vcpk install ... 을 해야했지만, 이 파일들이 있음으로서 리눅스나 다른 개발자 컴퓨터에서 명령어를 하나하나 칠 필요 없지 CMake가 빌드될 때 알아서 vckg.json을 읽고 라이브러리를 싹 다운로드 한다.
+
+vcpkg add port boost-asio
+
+이후 vcpkg install 명령어를 수행하면 vcpk.json에 적힌 목록을 읽어와 자동으로 설치를 진행한다.
+
+
+
+## Visual Studio
+VS에서 솔루션 탐색기에서는 .cpp나 .h 같은 소스 파일만 보인다. 파일을 구조화 해주는 점에서는 장점이지만, 다른 파일들을 수정하고자 할 때 매번 전체 파일을 봐야하는 것에 불편함이 있다.
+이를 해결하기 위해서 솔루션 탐색기 맨 위의 솔루션 '이름'을 마우스 우클릭해서 추가 > 기존항목으로 추가하는 게 좋다.
+이렇게 하면 솔루션 탐색기에 Solution Items 라는 가상 폴더가 생기면서 지정한 파일들만 들어온다. 
