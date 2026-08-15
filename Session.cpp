@@ -4,7 +4,7 @@
 
 using boost::asio::ip::tcp;
 
-Session::Session(tcp::socket socket) : socket_(std::move(socket)) {}
+Session::Session(tcp::socket socket) : socket_(std::move(socket)), data_{} {}
 
 void Session::start() {
   std::cout << "[New Client] IP: "
