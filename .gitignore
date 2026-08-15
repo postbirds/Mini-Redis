@@ -7,4 +7,4 @@ ARM64/
 x64/
 Debug/
 Release/
-
+vcpkg_installed/
