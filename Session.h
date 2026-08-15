@@ -22,5 +22,5 @@ class Session : public std::enable_shared_from_this<Session> {
  private:
   void do_read();
   void do_write();
-  std::string process_command(const std::string& input);
+  std::string process_command(std::string input);
 };

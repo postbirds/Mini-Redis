@@ -43,7 +43,12 @@ void Session::do_write() {
                            });
 }
 
-std::string Session::process_command(const std::string& input) {
+std::string Session::process_command(std::string input) {
+
+  while (!input.empty() && (input.back() == '\n' || input.back() == '\r')) {
+    input.pop_back();
+  }
+
   std::istringstream iss(input);
   std::string command, key, value;
 
@@ -52,20 +57,20 @@ std::string Session::process_command(const std::string& input) {
   if (command == "SET" || command == "set") {
     iss >> key >> value;
     if (key.empty() || value.empty())
-      return "-ERR syntax error\n";
+      return "-ERR syntax error\r\n";
 
     db_.set(key, value);
-    return "+OK\n";
+    return "+OK\r\n";
   } else if (command == "GET" || command == "get") {
     iss >> key;
     if (key.empty())
-      return "-ERR syntax error\n";
+      return "-ERR syntax error\r\n";
 
     std::string res = db_.get(key);
     if (res == "(nil)")
-      return "(nil)\n";
-    return res + "\n";
+      return "(nil)\r\n";
+    return res + "\r\n";
   }
 
-  return "-ERR unknown command\n";
+  return "-ERR unknown command\r\n";
 }
