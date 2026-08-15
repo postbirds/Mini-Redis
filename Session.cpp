@@ -18,16 +18,16 @@ void Session::do_read() {
   boost::asio::async_read_until(
       socket_, buffer_, '\n',
       [this, self](boost::system::error_code ec, std::size_t length) {
-        // 1. 버퍼에서 읽은 만큼만 문자열로 반환
-        std::string request{
-            boost::asio::buffers_begin(buffer_.data()),
-            boost::asio::buffers_begin(buffer_.data()) + length};
+        if (!ec) {
+          std::string request{
+              boost::asio::buffers_begin(buffer_.data()),
+              boost::asio::buffers_begin(buffer_.data()) + length};
 
-        // 2. 읽은 데이터는 버퍼에서 비워줌
-        buffer_.consume(length);
-        // 3. 명령어 처리 및 응답
-        response_ = process_command(request);
-        do_write();
+          buffer_.consume(length);
+
+          response_ = process_command(request);
+          do_write();
+        }
       });
 }
 
