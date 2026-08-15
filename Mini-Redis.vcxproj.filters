@@ -21,16 +21,16 @@
     <ClCompile Include="KVDatabase.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KVDatabase.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
-    <None Include=".gitignore" />
-    <None Include=".clang-format" />
-    <None Include=".clang-tidy" />
+    <ClInclude Include="Session.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
