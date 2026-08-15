@@ -9,6 +9,7 @@
     <File Path=".clang-tidy" />
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
+    <File Path="gitattributes" />
     <File Path="README.md" />
     <File Path="vcpkg-configuration.json" />
     <File Path="vcpkg.json" />
