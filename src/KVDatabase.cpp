@@ -1,8 +1,11 @@
 #include "KVDatabase.h"
 
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <mutex>
+#include <filesystem>
 
 KVDatabase::KVDatabase() {
   load_snapshot();
@@ -33,9 +36,18 @@ std::string KVDatabase::get(const std::string& key) const {
 bool KVDatabase::save_snapshot() const {
   std::shared_lock<std::shared_mutex> lock(rw_mutex);
 
+  std::filesystem::path path(snapshot_file);
+  if (path.has_parent_path() && !std::filesystem::exists(path.parent_path())) {
+    std::filesystem::create_directories(path.parent_path());
+    std::cout << "[DB] Created directory: " << path.parent_path() << "\n";
+  }
+
   std::ofstream out(snapshot_file);
-  if (!out.is_open())
+  if (!out.is_open()) {
+    std::cerr << "[DB] Error: Cannot open file for writing: " << snapshot_file
+              << "\n";
     return false;
+  }
 
   for (const auto& [k, v] : store) {
     out << k << " " << v << "\r\n";

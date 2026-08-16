@@ -45,14 +45,21 @@ void Session::do_write() {
 
 std::string Session::process_command(std::string input) {
 
-  while (!input.empty() && (input.back() == '\n' || input.back() == '\r')) {
-    input.pop_back();
+  std::string clean_input;
+  for (unsigned char c : input) {
+    if (c >= 32 && c <= 126) {
+      clean_input += c;
+    }
   }
 
-  std::istringstream iss(input);
+  std::istringstream iss(clean_input);
   std::string command, key, value;
 
   iss >> command;
+
+  if (command.empty()) {
+    return "";
+  }
 
   if (command == "SET" || command == "set") {
     iss >> key >> value;
