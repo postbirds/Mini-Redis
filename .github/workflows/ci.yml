@@ -1,0 +1,33 @@
+name: C++ CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ libboost-dev libgtest-dev
+
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build Project
+      run: cmake --build build --config Release
+
+    - name: Run Test (with AddressSanitizer)
+      run: ctest --test-dir build --output-on-failure
+      env:
+        ASAN_OPTIONS: detect_leaks=1
