@@ -9,6 +9,7 @@ Debug/
 Release/
 vcpkg_installed/
 build/
+out/
 
 # Dump 파일
 dumps/

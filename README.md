@@ -159,6 +159,24 @@ CMake는 이 메모장 파일을 읽고, 현재 컴퓨터 환경에 맞춰 빌�
 
 CMake를 적용한다는 것은 내 코드를 "어떤 OS, 어떤 에디터(VS, CLionn, VS Code)를 쓰건 1초만에 똑같은 세팅으로 빌드할 수 있는 글로벌 표준 형태를 만다는 것이다.
 
+CMake로 빌드해보기 위해서
+1. Configure
+- vcpkg 패키지 매니저 경로를 CMake에 알려주어서 Boost 라이브러를 자동으로 찾게 한다.
+```
+# (주의: vcpkg를 C:\vcpkg 에 설치했다고 가정한 명령어입니다. 경로가 다르다면 수정해 주세요.)
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
+```
+-B build: 빌드결과물은 섞이지 않도록 build라는 새로운 폴더를 만들어 그 안에 넣어줘
+- S . : 소스코드와 CMakeLists.txt는 현재 폴더(.)에 있따.
+
+이 명령어를 치면 build 폴더가 생기고, 그 안에 수많은 컴파일 설정 파일들이 자동으로 생성된다.
+
+2단계: 실제 컴파일 실행(build)
+이제 생성된 설정 파일을 바탕으로 진짜 .exe 파일을 뽑아낸다.
+cmake --build build
+빌드가 성공적으로 끝나면 build/Debug/ 폴더 등 안에 MiniRedis.exe 파일이 있다.
+
+
 
 
 

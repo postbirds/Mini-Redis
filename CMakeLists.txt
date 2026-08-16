@@ -9,11 +9,13 @@ find_package(Boost REQUIRED)
 find_package(Threads REQUIRED)
 
 add_executable(MiniRedis
-    main.cpp
-    KVDatabase.cpp
-    Server.cpp
-    Session.cpp
+    src/main.cpp
+    src/KVDatabase.cpp
+    src/Server.cpp
+    src/Session.cpp
 )
+
+target_include_directories(MiniRedis PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(MiniRedis PRIVATE 
     Boost::boost 
