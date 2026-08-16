@@ -6,3 +6,6 @@ ARM64/
 *.user
 dumps/
 *.rdb
+out/
+*.pdb
+*.exe
