@@ -177,6 +177,35 @@ cmake --build build
 빌드가 성공적으로 끝나면 build/Debug/ 폴더 등 안에 MiniRedis.exe 파일이 있다.
 
 
+## C++을 도커라이징하자.
+C++을 도커라이징하기 위해서 멀티 스테이지 빌드를 적용해 Dockerfile을 작성해야 한다.
+
+자바는 소스코드 빌드할 때 JDK가 필요하지만 실행할 때는 가벼운 JRE만 있으면 된다.
+C++도 마찬가지이다.
+- Stage1 (빌더): 무거운 C++ 컴파일러(GCC/Clang)와 CMake, 라이브러리를 설치하여 소스코드를 .exe(리눅스에선 바이너리 실행파일)로 변환한다.
+- Stage2 (런타임): 컴파일러는 전부 버리고, 아주 가벼운 빈 리누긋 OS에 방금 만든 '실행 파일 딱 1개'만 옮겨 담아서 최종 컨테이너를 만든다.
+이렇게 함으로써, 컨테이너 용량이 기가바이트 단위에서 메가바이트 단위로 줄어든다.
+
+dockerfile 작성 후
+1. 도커 이미지 빌드(포장하기) `docker build -t mini-redis:1.0`
+-  중간에 실패했을 때는 docker build --no-cache -t mini-redis:1.0 .으로 다시 해보는 게 좋다.
+2. docker 실행: `docker run -d -p 6379:6379 --name my-redis mini-redis:1.0`
+3. 이렇게 하고 터미널에서 telnet 127.0.0.1 6379로 접속해서 SET name docker 등을 수행할 수 있다.
+
+
+
+Dockerfile에서는 vcpkg를 사용하지 않고 리눅스의 apt-get install libboost-dev를 사용했다.
+그런데, 소스코드 자체는 수정하지 않았다. find_package(Boost REQUIRED) 덕분에 윈도우에서는 vcpkg 폴더를 찾고, linux에선 os 표준 라이브러리르 뒤져서 알아서 한다.
+
+## Test
+gTest 설치 및 test_kvdatabase.cpp 작성 (테스트하기)
+Test 코드 파일에는 main()함수가 없으므로 gtest에서 제공하는  gtest_main을 링크해서 이 파일만을 위한 전용 실행 파일을 만들어야 한다.
+CMakeLists.txt를 추가해야한다.
+
+
+## GitHub Actions로 자동 배포 파이프라인 CICD만들기
+
+
 
 
 
