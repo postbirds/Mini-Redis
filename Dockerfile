@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+RUN cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
 RUN cmake --build build --config Release
 
 ## Stage 2: Runtime

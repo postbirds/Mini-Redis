@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost REQUIRED)
 find_package(Threads REQUIRED)
-find_package(GTest CONFIG REQUIRED)
+find_package(GTest REQUIRED)
 
 add_executable(MiniRedis
     src/main.cpp
@@ -15,6 +15,26 @@ add_executable(MiniRedis
     src/Server.cpp
     src/Session.cpp
 )
+
+option(BUILD_TESTING "Build the testing tree" ON)
+if(BUILD_TESTING)
+    find_package(GTest REQUIRED)
+    
+    add_executable(test_kvdatabase
+        tests/test_kvdatabase.cpp
+        src/KVDatabase.cpp
+    )
+    target_include_directories(test_kvdatabase PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(test_kvdatabase PRIVATE 
+        Boost::boost 
+        Threads::Threads
+        GTest::gtest
+        GTest::gtest_main
+    )
+    include(GoogleTest)
+    gtest_discover_tests(test_kvdatabase)
+endif()
+
 
 target_include_directories(MiniRedis PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
