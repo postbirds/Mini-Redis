@@ -25,10 +25,10 @@ target_link_libraries(MiniRedis PRIVATE
 
 ## Memory Leak check
 if(MSVC)
-    add_compile_options(/fsanitize=address)
-    add_link_options(/INFERASANLIBS)
+    add_compile_options(/fsanitize=address /Zi)
+    add_link_options(/INFERASANLIBS /DEBUG)
 else()
-    add_compile_options(-fsanitize=address)
+    add_compile_options(-fsanitize=address -g)
     add_link_options(-fsanitize=address)
 endif()
 
