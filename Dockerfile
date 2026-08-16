@@ -1,6 +1,6 @@
 ## Stage 1: build
 
-FROM ubuntu::22.04 AS builder
+FROM ubuntu:22.04 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -19,11 +19,11 @@ RUN cmake --build build --config Release
 
 ## Stage 2: Runtime
 
-FROM ubuntu::22.04
+FROM ubuntu:22.04
 
 WORKDIR /app
 
-COPY --from=builder /app/build/MiniRedis /usr/local/bn/MiniRedis
+COPY --from=builder /app/build/MiniRedis /usr/local/bin/MiniRedis
 
 EXPOSE 6379
 
