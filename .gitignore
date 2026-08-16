@@ -8,3 +8,6 @@ x64/
 Debug/
 Release/
 vcpkg_installed/
+
+# Dump 파일
+dumps/
