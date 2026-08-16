@@ -9,7 +9,7 @@ find_package(Boost REQUIRED)
 find_package(Threads REQUIRED)
 
 add_executable(MiniRedis
-    Mini-Redis.cpp
+    main.cpp
     KVDatabase.cpp
     Server.cpp
     Session.cpp
