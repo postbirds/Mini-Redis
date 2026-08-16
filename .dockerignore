@@ -1,0 +1,8 @@
+.vs/
+.git/
+build/
+x64/
+ARM64/
+*.user
+dumps/
+*.rdb
