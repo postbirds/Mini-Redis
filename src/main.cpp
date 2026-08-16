@@ -28,7 +28,8 @@ void threadTask(KVDatabase& db, int thread_id) {
 }
 
 void threadTaskMain() {
-  SetConsoleOutputCP(CP_UTF8);
+
+  //SetConsoleOutputCP(CP_UTF8);
 
   std::cout << "=== Mini-Redis 서버 시작 ===\n";
   KVDatabase db;
