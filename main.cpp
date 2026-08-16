@@ -72,6 +72,13 @@ int main() {
 
     KVDatabase db;
 
+    boost::asio::signal_set signals(io_context, SIGINT, SIGTERM);
+    signals.async_wait([&](boost::system::error_code, int) {
+      std::cout
+          << "\n[System] Exit Signal(Ctrl + C). Server is shutting down...\r\n";
+      io_context.stop();
+    });
+
     Server server(io_context, 6379, db);
 
     io_context.run();
