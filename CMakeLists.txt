@@ -23,6 +23,16 @@ target_link_libraries(MiniRedis PRIVATE
     Threads::Threads
 )
 
+## Memory Leak check
+if(MSVC)
+    add_compile_options(/fsanitize=address)
+    add_link_options(/INFERASANLIBS)
+else()
+    add_compile_options(-fsanitize=address)
+    add_link_options(-fsanitize=address)
+endif()
+
+
 # Test
 add_executable(test_kvdatabase
     tests/test_kvdatabase.cpp
