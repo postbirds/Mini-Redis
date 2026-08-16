@@ -8,7 +8,7 @@ class KVDatabase {
   std::unordered_map<std::string, std::string> store;
   mutable std::shared_mutex rw_mutex;
 
-  const std::string snapshot_file = ".\dumps\dump.rdb";
+  const std::string snapshot_file = "./dumps/dump.rdb";
 
  public:
   KVDatabase();
