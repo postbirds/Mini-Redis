@@ -15,8 +15,8 @@ class KVDatabase {
   ~KVDatabase();
 
   void set(const std::string& key, const std::string& value);
-  std::string get(const std::string& key) const;
+  [[nodiscard]] std::string get(const std::string& key) const;
 
-  bool save_snapshot() const;
+  [[nodiscard]] bool save_snapshot() const;
   void load_snapshot();
 };
