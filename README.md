@@ -10,13 +10,30 @@ In-Memory KVS 만들기
 	2. 기존 Java 생태계를 C++ 메모리 관리, 멀티 스레딩, 비동기 IO 등을 이해하기 위함
 	3. 웹 개발 및 업무 자동화에서는 컴퓨터과학 지식의 필요성을 크게 못 느낀 아쉬움 해소
 - **기술 스택**
+	- **IDE**: Visual Studio 2026 Community	
 	- **Language:** C++20
 	- **Network:** Boost.Asio
 	- **Build & CI/CD:**: CMake, Docker, GitHub Actions
 	- **Testing:** Google Test(GTest), AddressSanitizer(ASan)
 
 ## 실행 화면(Demo)
-GIF 파일을 넣자
+|set/get|save|
+|:--:|:--:|
+|<img src="./docs/resources/" width="400" height="200"/>|<img src="./docs/resources/" width="400" height="200"/>|
+
+|저장 파일 확인||
+|:--:|:--:|
+|<img src="./docs/resources/" width="400" height="200"/>|<img src="./docs/resources/" width="400" height="200"/>|
+
+## 프로젝트 실행 방법
+### Local
+1. configure: `cmake -B out/build/x64-Release -S . -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_MAKE_PROGRAM="C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja\ninja.exe"`
+2. build: `cmake --build out/build/x64-Release --config Release`
+
+
+### Docker
+1. 도커 이미지 빌드: `docker build -t my-redis:1.0 .`
+2. 도커 컨테이너 실행: `docker run -d -p 6379:6379 --name mini-redis my-redis:1.0`
 
 ## 핵심 기술 및 구현 개념
 
